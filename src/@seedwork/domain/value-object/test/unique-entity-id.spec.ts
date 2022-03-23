@@ -1,5 +1,5 @@
-import UniqueEntityId from "./unique-entity-id"
-import InvalidUuidError from "../../errors/invalid-uuid.error"
+import UniqueEntityId from "../unique-entity-id"
+import InvalidUuidError from "../../../errors/invalid-uuid.error"
 import { randomUUID } from "crypto"
 
 describe('UniqueEntityId Unit Tests', () => {
@@ -15,7 +15,7 @@ describe('UniqueEntityId Unit Tests', () => {
     const uuid = randomUUID()
     const uniqueEntityId = new UniqueEntityId(uuid)
 
-    expect(uniqueEntityId.id).toBe(uuid)
+    expect(uniqueEntityId.value).toBe(uuid)
     expect(spyValidate).toHaveBeenCalled()
   })
 
@@ -23,7 +23,7 @@ describe('UniqueEntityId Unit Tests', () => {
     const uniqueEntityId = new UniqueEntityId()
     const regexUUID = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
 
-    expect(uniqueEntityId.id).toMatch(regexUUID)
+    expect(uniqueEntityId.value).toMatch(regexUUID)
     expect(spyValidate).toHaveBeenCalled()
   })
 
