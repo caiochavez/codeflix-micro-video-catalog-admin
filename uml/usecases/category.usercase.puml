@@ -4,6 +4,6 @@
 :Admin: -> (Atualizar categoria)
 :Admin: -> (Excluir categoria)
 :Admin: -> (Consultar uma categoria)
-:Admin: -> (Consulttar categorias)
+:Admin: -> (Consultar categorias)
 
 @enduml
