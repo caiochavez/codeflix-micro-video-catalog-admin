@@ -1,7 +1,7 @@
-import { randomUUID } from 'crypto'
+import UniqueEntityId from "../../../@seedwork/domain/value-object/unique-entity-id"
 
 export type CategoryProps = {
-  id?: string
+  id?: UniqueEntityId
   name: string
   description?: string
   is_active?: boolean
@@ -11,14 +11,14 @@ export type CategoryProps = {
 export default class Category {
 
   constructor(public readonly props: CategoryProps) {
-    this.id = props.id || randomUUID()
+    this.id = this.props.id || new UniqueEntityId()
     this.name = this.props.name
     this.description = this.props.description ?? null
     this.is_active = this.props.is_active ?? true
     this.created_at = this.props.created_at ?? new Date()
   }
 
-  get id(): string {
+  get id(): UniqueEntityId {
     return this.props.id
   }
 
@@ -38,34 +38,29 @@ export default class Category {
     return this.props.created_at
   }
 
-  set id(id: string) {
+  private set id(id: UniqueEntityId) {
     this.props.id = id
   }
 
-  set name(name: string) {
+  private set name(name: string) {
     this.props.name = name
   }
 
-  set description(description: string) {
+  private set description(description: string) {
     this.props.description = description
   }
 
-  set is_active(is_active: boolean) {
+  private set is_active(is_active: boolean) {
     this.props.is_active = is_active
   }
 
-  set created_at(created_at: Date) {
+  private set created_at(created_at: Date) {
     this.props.created_at = created_at
   }
 
 }
 
 /*
-Category : id: uuid
-Category : name: string
-Category : description: string
-Category : is_active: boolean
-Category : created_at: date
 
 Category : create()
 Category : update()

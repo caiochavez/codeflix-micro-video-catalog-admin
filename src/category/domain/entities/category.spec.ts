@@ -1,6 +1,6 @@
 import Category, {CategoryProps} from "./category"
 import { omit } from "lodash"
-import { randomUUID } from "crypto"
+import UniqueEntityId from "../../../@seedwork/domain/value-object/unique-entity-id"
 
 describe('Category Tests', () => {
 
@@ -31,15 +31,13 @@ describe('Category Tests', () => {
     const data: CategoryData = [
       { props: { name: 'Filme' } },
       { props: { id: null, name: 'Filme' } },
-      { props: { id: undefined, name: 'Filme' } },
-      { props: { id: randomUUID(), name: 'Filme' } }
+      { props: { id: undefined, name: 'Filme' } }
     ]
 
     data.forEach(item => {
       const category = new Category(item.props)
-      const regex = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
       expect(category.id).not.toBeNull()
-      expect(category.id).toMatch(regex)
+      expect(category.id).toBeInstanceOf(UniqueEntityId)
     })
   })
 
