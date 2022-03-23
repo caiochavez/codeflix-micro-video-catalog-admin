@@ -1,1 +1,1 @@
-# Codeflix - Microservice - Catalog Admin
+# Codeflix - Microservice - Video Catalog Admin

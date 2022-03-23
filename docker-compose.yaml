@@ -3,6 +3,6 @@ version: '3'
 services:
   app:
     build: .
-    container_name: micro-catalog-admin-app
+    container_name: micro-video-catalog-admin-app
     volumes:
       - .:/home/node/app
