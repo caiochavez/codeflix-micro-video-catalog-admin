@@ -1,11 +1,14 @@
 import Category, {CategoryProps} from "./category"
 import { omit } from "lodash"
+import { randomUUID } from "crypto"
 
 describe('Category Tests', () => {
 
   it("should start constructor of category", () => {
     let props: CategoryProps = { name: 'Filme' }
     let category = new Category(props)
+    props.id = category.id
+
     expect(category.props).toStrictEqual(props)
     expect(category.props.created_at).toBeInstanceOf(Date)
 
@@ -16,10 +19,28 @@ describe('Category Tests', () => {
       created_at: new Date()
     }
     category = new Category(props)
+    props.id = category.id
     expect(category.props).toStrictEqual(props)
 
     props = omit(category.props, ['created_at', 'description', 'is_active'])
-    expect(props).toStrictEqual({ name: 'Filme' })
+    expect(props).toStrictEqual({ id: category.id, name: 'Filme' })
+  })
+
+  it('id field', () => {
+    type CategoryData = { props: CategoryProps }[]
+    const data: CategoryData = [
+      { props: { name: 'Filme' } },
+      { props: { id: null, name: 'Filme' } },
+      { props: { id: undefined, name: 'Filme' } },
+      { props: { id: randomUUID(), name: 'Filme' } }
+    ]
+
+    data.forEach(item => {
+      const category = new Category(item.props)
+      const regex = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
+      expect(category.id).not.toBeNull()
+      expect(category.id).toMatch(regex)
+    })
   })
 
   it('should get name of category', () => {

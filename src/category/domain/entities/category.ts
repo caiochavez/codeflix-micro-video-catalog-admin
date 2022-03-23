@@ -1,4 +1,7 @@
+import { randomUUID } from 'crypto'
+
 export type CategoryProps = {
+  id?: string
   name: string
   description?: string
   is_active?: boolean
@@ -8,9 +11,15 @@ export type CategoryProps = {
 export default class Category {
 
   constructor(public readonly props: CategoryProps) {
-    this.props.description = this.props.description ?? null
-    this.props.is_active = this.props.is_active ?? true
-    this.props.created_at = this.props.created_at ?? new Date()
+    this.id = props.id || randomUUID()
+    this.name = this.props.name
+    this.description = this.props.description ?? null
+    this.is_active = this.props.is_active ?? true
+    this.created_at = this.props.created_at ?? new Date()
+  }
+
+  get id(): string {
+    return this.props.id
   }
 
   get name(): string {
@@ -27,6 +36,26 @@ export default class Category {
 
   get created_at(): Date {
     return this.props.created_at
+  }
+
+  set id(id: string) {
+    this.props.id = id
+  }
+
+  set name(name: string) {
+    this.props.name = name
+  }
+
+  set description(description: string) {
+    this.props.description = description
+  }
+
+  set is_active(is_active: boolean) {
+    this.props.is_active = is_active
+  }
+
+  set created_at(created_at: Date) {
+    this.props.created_at = created_at
   }
 
 }
