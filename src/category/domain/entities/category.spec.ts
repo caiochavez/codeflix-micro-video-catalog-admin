@@ -7,7 +7,6 @@ describe('Category Tests', () => {
   it("should start constructor of category", () => {
     let props: CategoryProps = { name: 'Filme' }
     let category = new Category(props)
-    props.id = category.id
 
     expect(category.props).toStrictEqual(props)
     expect(category.props.created_at).toBeInstanceOf(Date)
@@ -19,25 +18,25 @@ describe('Category Tests', () => {
       created_at: new Date()
     }
     category = new Category(props)
-    props.id = category.id
     expect(category.props).toStrictEqual(props)
 
     props = omit(category.props, ['created_at', 'description', 'is_active'])
-    expect(props).toStrictEqual({ id: category.id, name: 'Filme' })
+    expect(props).toStrictEqual({ name: 'Filme' })
   })
 
   it('id field', () => {
-    type CategoryData = { props: CategoryProps }[]
-    const data: CategoryData = [
+    type CategoryData = { props: CategoryProps, id?: UniqueEntityId }
+    const data: CategoryData[] = [
       { props: { name: 'Filme' } },
-      { props: { id: null, name: 'Filme' } },
-      { props: { id: undefined, name: 'Filme' } }
+      { props: { name: 'Filme' }, id: null },
+      { props: { name: 'Filme' }, id: undefined },
+      { props: { name: 'Filme' }, id: new UniqueEntityId() }
     ]
 
     data.forEach(item => {
-      const category = new Category(item.props)
+      const category = new Category(item.props, item.id)
       expect(category.id).not.toBeNull()
-      expect(category.id).toBeInstanceOf(UniqueEntityId)
+      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId)
     })
   })
 

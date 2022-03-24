@@ -1,25 +1,20 @@
 import UniqueEntityId from "../../../@seedwork/domain/value-object/unique-entity-id"
+import Entity from "../../../@seedwork/domain/entity/entity";
 
 export type CategoryProps = {
-  id?: UniqueEntityId
   name: string
   description?: string
   is_active?: boolean
   created_at?: Date
 }
 
-export default class Category {
+export default class Category extends Entity<CategoryProps> {
 
-  constructor(public readonly props: CategoryProps) {
-    this.id = this.props.id || new UniqueEntityId()
-    this.name = this.props.name
-    this.description = this.props.description ?? null
-    this.is_active = this.props.is_active ?? true
-    this.created_at = this.props.created_at ?? new Date()
-  }
-
-  get id(): UniqueEntityId {
-    return this.props.id
+  constructor(public readonly props: CategoryProps, id?: UniqueEntityId) {
+    super(props, id)
+    this.props.description = this.props.description ?? null
+    this.props.is_active = this.props.is_active ?? true
+    this.props.created_at = this.props.created_at ?? new Date()
   }
 
   get name(): string {
@@ -38,33 +33,4 @@ export default class Category {
     return this.props.created_at
   }
 
-  private set id(id: UniqueEntityId) {
-    this.props.id = id
-  }
-
-  private set name(name: string) {
-    this.props.name = name
-  }
-
-  private set description(description: string) {
-    this.props.description = description
-  }
-
-  private set is_active(is_active: boolean) {
-    this.props.is_active = is_active
-  }
-
-  private set created_at(created_at: Date) {
-    this.props.created_at = created_at
-  }
-
 }
-
-/*
-
-Category : create()
-Category : update()
-Category : activate()
-Category : deactivate()
-Category : delete()
-*/
