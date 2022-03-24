@@ -1,5 +1,5 @@
 import UniqueEntityId from "../../../@seedwork/domain/value-object/unique-entity-id"
-import Entity from "../../../@seedwork/domain/entity/entity";
+import Entity from "../../../@seedwork/domain/entity/entity"
 
 export type CategoryProps = {
   name: string
@@ -15,6 +15,20 @@ export default class Category extends Entity<CategoryProps> {
     this.props.description = this.props.description ?? null
     this.props.is_active = this.props.is_active ?? true
     this.props.created_at = this.props.created_at ?? new Date()
+  }
+
+  public update(name?: string, description?: string) {
+    if (!name && !description) throw Error('No property sent')
+    if (name) this.props.name = name
+    if (description) this.props.description = description
+  }
+
+  public activate() {
+    this.props.is_active = true
+  }
+
+  public deactivate () {
+    this.props.is_active = false
   }
 
   get name(): string {

@@ -76,4 +76,35 @@ describe('Category Tests', () => {
     expect(category.created_at).toBeInstanceOf(Date)
   })
 
+  it('should update a category', () => {
+    let category = new Category({ name: 'Filme' })
+    category.update('Filme 1', 'Algo')
+    expect(category.name).toBe('Filme 1')
+    expect(category.description).toBe('Algo')
+
+    category = new Category({ name: 'Filme' })
+    category.update('Filme 10')
+    expect(category.name).toBe('Filme 10')
+    expect(category.description).toBeNull()
+
+    category = new Category({ name: 'Filme' })
+    category.update(null, 'Alguma descrição')
+    expect(category.name).toBe('Filme')
+    expect(category.description).toBe('Alguma descrição')
+
+    category = new Category({ name: 'Filme' })
+    expect(() => category.update(undefined, undefined))
+      .toThrowError('No property sent')
+  })
+
+  it('should activate and deactivate a category',() => {
+    let category = new Category({ name: 'Filme', is_active: false })
+    category.activate()
+    expect(category.is_active).toBeTruthy()
+
+    category = new Category({ name: 'Filme 2', is_active: true })
+    category.deactivate()
+    expect(category.is_active).toBeFalsy()
+  })
+
 })
