@@ -4,10 +4,15 @@ import UniqueEntityId from "../../../@seedwork/domain/value-object/unique-entity
 
 describe('Category Tests', () => {
 
+  beforeEach(() => {
+    Category.validate = jest.fn()
+  })
+
   it("should start constructor of category", () => {
     let props: CategoryProps = { name: 'Filme' }
     let category = new Category(props)
 
+    expect(Category.validate).toHaveBeenCalled()
     expect(category.props).toStrictEqual(props)
     expect(category.props.created_at).toBeInstanceOf(Date)
 
@@ -79,6 +84,7 @@ describe('Category Tests', () => {
   it('should update a category', () => {
     let category = new Category({ name: 'Filme' })
     category.update('Filme 1', 'Algo')
+    expect(Category.validate).toHaveBeenCalledTimes(2)
     expect(category.name).toBe('Filme 1')
     expect(category.description).toBe('Algo')
 
