@@ -19,15 +19,14 @@ export default class Category extends Entity<CategoryProps> {
     this.props.created_at = this.props.created_at ?? new Date()
   }
 
-  public update(name?: string, description?: string) {
+  public update(name: string, description: string) {
     Category.validate({ name, description })
-    if (!name && !description) throw Error('No property sent')
-    if (name) this.props.name = name
-    if (description) this.props.description = description
+    this.props.name = name
+    this.props.description = description
   }
 
   static validate (props: Omit<CategoryProps, 'created_at'>) {
-    ValidatorRules.values('name', props.name).string()
+    ValidatorRules.values('name', props.name).required().string().maxLength(255)
     ValidatorRules.values('description', props.description).string()
     ValidatorRules.values('is_active', props.is_active).boolean()
   }
