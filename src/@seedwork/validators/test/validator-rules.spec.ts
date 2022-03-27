@@ -1,5 +1,5 @@
-import ValidatorRules from "./validator-rules"
-import ValidationError from "../errors/validation.error"
+import ValidatorRules from "../validator-rules"
+import ValidationError from "../../errors/validation.error"
 
 describe('ValidatorRules Unit Tests', () => {
 
