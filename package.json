@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/caiochavez/codeflix-micro-catalog-admin#readme",
   "dependencies": {
+    "class-validator": "^0.13.2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
