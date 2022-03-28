@@ -1,5 +1,5 @@
 import UniqueEntityId from "../unique-entity-id"
-import InvalidUuidError from "../../../errors/invalid-uuid.error"
+import InvalidUuidError from "../../errors/invalid-uuid.error"
 import { randomUUID } from "crypto"
 
 describe('UniqueEntityId Unit Tests', () => {
