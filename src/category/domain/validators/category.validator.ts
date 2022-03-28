@@ -1,11 +1,11 @@
-import ClassValidatorFields from "../../../@seedwork/validators/class-validator-fields"
+import ClassValidatorFields from "../../../@seedwork/domain/validators/class-validator-fields"
 import {CategoryProps} from "../entities/category"
-import {IsBoolean, IsDate, IsEmpty, IsOptional, IsString, MaxLength} from "class-validator"
+import {IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString, MaxLength} from "class-validator"
 
 export class CategoryRules {
   @MaxLength(255)
   @IsString()
-  @IsEmpty()
+  @IsNotEmpty()
   name: string
 
   @IsString()
