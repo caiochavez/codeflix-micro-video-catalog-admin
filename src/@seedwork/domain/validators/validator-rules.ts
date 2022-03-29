@@ -1,4 +1,4 @@
-import ValidationError from "../errors/validation.error"
+import {ValidationError} from "../errors/validation.error"
 
 export function isEmpty(value: any): boolean {
   return value === undefined || value === null
