@@ -1,7 +1,7 @@
 import {RepositoryInterface} from "./repository-contracts"
 import Entity from "../entity/entity"
 import UniqueEntityId from "../value-object/unique-entity-id"
-import NotFoundError from "../errors/not-found.error";
+import NotFoundError from "../errors/not-found.error"
 
 export default abstract class InMemoryRepository<E extends Entity> implements RepositoryInterface<E> {
   items: E[] = []
