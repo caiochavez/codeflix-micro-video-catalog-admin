@@ -52,7 +52,7 @@ export class SearchParams {
   }
 
   private set rows_per_page(value: number) {
-    const _rows_per_page = +value
+    const _rows_per_page = value === true as any ? this.rows_per_page : +value
     if (Number.isNaN(_rows_per_page) || _rows_per_page <= 0 || parseInt(_rows_per_page as any) !== _rows_per_page) {
       this._rows_per_page = this.rows_per_page
     }
