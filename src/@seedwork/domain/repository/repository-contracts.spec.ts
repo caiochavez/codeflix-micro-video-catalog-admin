@@ -1,4 +1,4 @@
-import {SearchParams, SortDirection} from "./repository-contracts"
+import {SearchParams, SearchResult, SortDirection} from "./repository-contracts"
 
 describe('SearchParams Unit Tests', () => {
 
@@ -107,6 +107,78 @@ describe('SearchParams Unit Tests', () => {
       const props = new SearchParams({ filter: item.filter })
       expect(props.filter).toBe(item.expected)
     })
+  })
+
+})
+
+describe('SearchResult Unit Tests', () => {
+
+  test('constructor props', () => {
+    let result = new SearchResult({
+      items: ['entity 1', 'entity 2'] as any,
+      total: 4,
+      current_page: 1,
+      rows_per_page: 2,
+      sort: null,
+      sort_dir: null,
+      filter: null
+    })
+    expect(result.toJSON()).toStrictEqual({
+      items: ['entity 1', 'entity 2'],
+      total: 4,
+      current_page: 1,
+      rows_per_page: 2,
+      last_page: 2,
+      sort: null,
+      sort_dir: null,
+      filter: null
+    })
+
+    result = new SearchResult({
+      items: ['entity 1', 'entity 2'] as any,
+      total: 4,
+      current_page: 1,
+      rows_per_page: 2,
+      sort: 'name',
+      sort_dir: SortDirection.ASC,
+      filter: 'test'
+    })
+    expect(result.toJSON()).toStrictEqual({
+      items: ['entity 1', 'entity 2'],
+      total: 4,
+      current_page: 1,
+      rows_per_page: 2,
+      last_page: 2,
+      sort: 'name',
+      sort_dir: SortDirection.ASC,
+      filter: 'test'
+    })
+  })
+
+  it('should set last_page = 1 when rows_per_page field is greater than total field', () => {
+    const result = new SearchResult({
+      items: [],
+      total: 4,
+      current_page: 1,
+      rows_per_page: 15,
+      sort: 'name',
+      sort_dir: SortDirection.ASC,
+      filter: 'test'
+    })
+    expect(result.last_page).toBe(1)
+  })
+
+  test('last_page prop when total is not multiple of rows_per_page', () => {
+    const result = new SearchResult({
+      items: [],
+      total: 101,
+      current_page: 1,
+      rows_per_page: 20,
+      sort: 'name',
+      sort_dir: SortDirection.ASC,
+      filter: 'test'
+    })
+    expect(result.last_page).toBe(6)
   })
 
 })
