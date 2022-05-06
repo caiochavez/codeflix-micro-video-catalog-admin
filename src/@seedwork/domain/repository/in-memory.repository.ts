@@ -1,4 +1,10 @@
-import {RepositoryInterface, SearchableRepositoryInterface} from "./repository-contracts"
+import {
+  RepositoryInterface,
+  SearchableRepositoryInterface,
+  SearchParams,
+  SearchResult,
+  SortDirection
+} from "./repository-contracts"
 import Entity from "../entity/entity"
 import UniqueEntityId from "../value-object/unique-entity-id"
 import NotFoundError from "../errors/not-found.error"
@@ -39,10 +45,48 @@ export abstract class InMemoryRepository<E extends Entity> implements Repository
 
 export abstract class InMemorySearchableRepository<E extends Entity>
   extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E, any, any> {
+  implements SearchableRepositoryInterface<E> {
 
-  search(props: any): Promise<any> {
-    throw new Error('Error on search in memory repository')
+  sortableFields: string[] = []
+
+  async search(props: SearchParams): Promise<SearchResult<E>> {
+    const itemsFiltered = await this.applyFilter(this.items, props.filter)
+    const itemsSorted = this.applySort(itemsFiltered, props.sort, props.sort_dir)
+    const itemsPaginated = this.applyPagination(itemsSorted, props.page, props.rows_per_page)
+
+    return new SearchResult({
+      items: itemsPaginated,
+      total: itemsFiltered.length,
+      current_page: props.page,
+      rows_per_page: props.rows_per_page,
+      sort: props.sort,
+      sort_dir: props.sort_dir,
+      filter: props.filter
+    })
+  }
+
+  protected abstract applyFilter(items: E[], filter: string | null): Promise<E[]>
+
+  protected applySort(items: E[], sort: string | null, sort_dir: SortDirection | null): E[] {
+    if (!sort || !this.sortableFields.includes(sort)) return items
+
+    return [...items].sort((a, b) => {
+      if (a.props[sort] < b.props[sort]) {
+        return sort_dir === SortDirection.ASC ? -1 : 1
+      }
+
+      if (a.props[sort] > b.props[sort]) {
+        return sort_dir === SortDirection.ASC ? 1 : -1
+      }
+
+      return 0
+    })
+  }
+
+  protected applyPagination(items: E[], page: SearchParams['page'], rows_per_page: SearchParams['rows_per_page']): E[] {
+    const start = (page - 1) * rows_per_page
+    const end = start + rows_per_page
+    return items.slice(start, end)
   }
 
 }
