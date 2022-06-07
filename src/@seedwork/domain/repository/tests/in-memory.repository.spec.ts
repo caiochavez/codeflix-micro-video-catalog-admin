@@ -1,7 +1,7 @@
-import Entity from "../entity/entity"
-import { InMemoryRepository } from "./in-memory.repository"
-import NotFoundError from "../errors/not-found.error"
-import UniqueEntityId from "../value-object/unique-entity-id"
+import Entity from "../../entity/entity"
+import { InMemoryRepository } from "../in-memory.repository"
+import NotFoundError from "../../errors/not-found.error"
+import UniqueEntityId from "../../value-object/unique-entity-id"
 import {randomUUID} from "crypto"
 
 type StubEntityProps = {
